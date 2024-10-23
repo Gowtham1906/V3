@@ -53,7 +53,11 @@ def create_directory_structure(base_path):
 def create_terraform_files(parent_module, child_module):
     """Create all necessary Terraform files."""
     # Parent Module files
-    parent_main_tf = """resource "aws_vpc" "my_existing_vpc" {
+    parent_main_tf = """
+    provider "aws" {
+  region = var.aws_region
+}
+    resource "aws_vpc" "my_existing_vpc" {
     for_each = var.imported_vpc_configs
     
     cidr_block           = each.value.cidr_block
